@@ -1,0 +1,141 @@
+[33m620410a[m cambio de titulos
+[1mdiff --git a/src/components/dashboard/EstrategiaDashboardView.tsx b/src/components/dashboard/EstrategiaDashboardView.tsx[m
+[1mindex 8795e14..48e27f9 100644[m
+[1m--- a/src/components/dashboard/EstrategiaDashboardView.tsx[m
+[1m+++ b/src/components/dashboard/EstrategiaDashboardView.tsx[m
+[36m@@ -42,7 +42,7 @@[m [mconst COLORS = {[m
+   purple: "#8b5cf6",[m
+ };[m
+ [m
+[31m-export function SentimentFigures({ positive, negative }: { positive: any, negative: any }) {[m
+[32m+[m[32mexport function SentimentFigures({ positive, negative, title }: { positive: any, negative: any, title?: string }) {[m
+   // Extract numerical values safely in case they are text strings like "40%"[m
+   const extractNumber = (val: any) => {[m
+     if (val === undefined || val === null || val === '') return 0;[m
+[36m@@ -73,7 +73,7 @@[m [mexport function SentimentFigures({ positive, negative }: { positive: any, negati[m
+ [m
+   return ([m
+     <div className="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm h-full flex flex-col">[m
+[31m-      <h3 className="text-sm font-bold text-slate-400 uppercase tracking-wider mb-4">Análisis de Sentimiento</h3>[m
+[32m+[m[32m      <h3 className="text-sm font-bold text-slate-400 uppercase tracking-wider mb-4">{title ?? 'Análisis de Sentimiento'}</h3>[m
+       <div className="flex-1 flex flex-col justify-center gap-3">[m
+         [m
+         <div className="flex items-center justify-between bg-emerald-50 rounded-2xl px-4 py-3">[m
+[36m@@ -249,6 +249,7 @@[m [mexport function EstrategiaDashboardView({ categoria, title }: { categoria: strin[m
+             <SentimentFigures [m
+               positive={latest?.sentimiento_positivo || 0} [m
+               negative={latest?.sentimiento_negativo || 0} [m
+[32m+[m[32m              title="Análisis de Sentimiento General"[m
+             />[m
+ [m
+             {/* Publicaciones Principales (Imagen) */}[m
+[1mdiff --git a/src/components/dashboard/ListeningDashboardView.tsx b/src/components/dashboard/ListeningDashboardView.tsx[m
+[1mindex bc59f15..5231439 100644[m
+[1m--- a/src/components/dashboard/ListeningDashboardView.tsx[m
+[1m+++ b/src/components/dashboard/ListeningDashboardView.tsx[m
+[36m@@ -42,11 +42,10 @@[m [mexport function ListCard({ title, items }: { title: string, items: { text: strin[m
+             return ([m
+               <div key={idx} className="flex items-center justify-between bg-slate-50 p-3 rounded-xl border border-slate-100">[m
+                 <span className="text-sm font-bold text-slate-700">{item.text}</span>[m
+[31m-                <span className={`text-[10px] font-black uppercase px-2 py-1 rounded-full ${[m
+[31m-                  isAlta ? "bg-rose-100 text-rose-600" :[m
+[32m+[m[32m                <span className={`text-[10px] font-black uppercase px-2 py-1 rounded-full ${isAlta ? "bg-rose-100 text-rose-600" :[m
+                   isMedia ? "bg-amber-100 text-amber-600" :[m
+[31m-                  "bg-slate-200 text-slate-600"[m
+[31m-                }`}>[m
+[32m+[m[32m                    "bg-slate-200 text-slate-600"[m
+[32m+[m[32m                  }`}>[m
+                   {item.importance}[m
+                 </span>[m
+               </div>[m
+[36m@@ -83,11 +82,10 @@[m [mexport function ImpactCard({ title, items, isUrl }: { title: string, items: { no[m
+                 )}[m
+               </div>[m
+               <div className="flex items-center gap-2">[m
+[31m-                <span className={`text-[10px] font-black uppercase tracking-wide px-2 py-1 rounded-full ${[m
+[31m-                  item.impacto === 'positivo' ? 'bg-emerald-100 text-emerald-600' :[m
+[32m+[m[32m                <span className={`text-[10px] font-black uppercase tracking-wide px-2 py-1 rounded-full ${item.impacto === 'positivo' ? 'bg-emerald-100 text-emerald-600' :[m
+                   item.impacto === 'negativo' ? 'bg-rose-100 text-rose-600' :[m
+[31m-                  'bg-slate-100 text-slate-500'[m
+[31m-                }`}>[m
+[32m+[m[32m                    'bg-slate-100 text-slate-500'[m
+[32m+[m[32m                  }`}>[m
+                   {item.impacto === 'positivo' ? 'Positivo' : item.impacto === 'negativo' ? 'Negativo' : 'Neutral'}[m
+                 </span>[m
+                 <span className="text-2xl" title={item.impacto}>[m
+[36m@@ -106,7 +104,7 @@[m [mexport function ListeningDashboardView({ title }: { title: string }) {[m
+   const { userRole } = useLayout();[m
+   const [data, setData] = useState<ListeningMetrics[]>([]);[m
+   const [isLoading, setIsLoading] = useState(true);[m
+[31m-  [m
+[32m+[m
+   const getTodayString = () => {[m
+     return format(new Date(), 'yyyy-MM-dd');[m
+   };[m
+[36m@@ -119,7 +117,7 @@[m [mexport function ListeningDashboardView({ title }: { title: string }) {[m
+       .from('listening_metrics')[m
+       .select('*')[m
+       .order('fecha', { ascending: true });[m
+[31m-      [m
+[32m+[m
+     if (error) {[m
+       console.error("Error fetching data:", error);[m
+     } else {[m
+[36m@@ -150,8 +148,8 @@[m [mexport function ListeningDashboardView({ title }: { title: string }) {[m
+         <div className="flex flex-wrap items-center gap-3">[m
+           <div className="flex items-center gap-2 bg-white px-3 py-2 rounded-xl border border-slate-200 shadow-sm">[m
+             <Calendar className="w-4 h-4 text-slate-400" />[m
+[31m-            <input [m
+[31m-              type="date" [m
+[32m+[m[32m            <input[m
+[32m+[m[32m              type="date"[m
+               value={selectedDate}[m
+               max={getTodayString()}[m
+               onChange={(e) => setSelectedDate(e.target.value)}[m
+[36m@@ -174,7 +172,7 @@[m [mexport function ListeningDashboardView({ title }: { title: string }) {[m
+           </div>[m
+           <h2 className="text-xl font-bold text-slate-700">Aún no hay datos para {title}</h2>[m
+           <p className="text-slate-500 mt-2 max-w-md text-center">[m
+[31m-            {userRole === 'viewer' [m
+[32m+[m[32m            {userRole === 'viewer'[m
+               ? "No se han registrado métricas para esta sección todavía. Contacta al administrador."[m
+               : "Ingresa los primeros datos usando el botón \"Ingresar Datos\" en la parte superior derecha."}[m
+           </p>[m
+[36m@@ -183,21 +181,21 @@[m [mexport function ListeningDashboardView({ title }: { title: string }) {[m
+         <>[m
+           {/* KPI Grid */}[m
+           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">[m
+[31m-            <KPICard [m
+[31m-              title="Resultados" [m
+[31m-              value={latest?.resultados || 0} [m
+[32m+[m[32m            <KPICard[m
+[32m+[m[32m              title="Resultados"[m
+[32m+[m[32m              value={latest?.resultados || 0}[m
+               icon={FileText}[m
+               colorClass="text-[#003893]"[m
+             />[m
+[31m-            <KPICard [m
+[31m-              title="Interacciones" [m
+[31m-              value={latest?.interacciones || 0} [m
+[32m+[m[32m            <KPICard[m
+[32m+[m[32m              title="Interacciones"[m
+[32m+[m[32m              value={latest?.interacciones || 0}[m
+               icon={MessageCircle}[m
+               colorClass="text-emerald-500"[m
+             />[m
+[31m-            <KPICard [m
+[31m-              title="Alcance Potencial" [m
+[31m-              value={latest?.alcance_potencial || 0} [m
+[32m+[m[32m            <KPICard[m
+[32m+[m[32m              title="Alcance Potencial"[m
+[32m+[m[32m              value={latest?.alcance_potencial || 0}[m
+               icon={Eye}[m
+               colorClass="text-purple-500"[m
+             />[m
+[36m@@ -205,24 +203,25 @@[m [mexport function ListeningDashboardView({ title }: { title: string }) {[m
+ [m
+           {/* Sentimiento + Activity Peak en la misma fila */}[m
+           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">[m
+[31m-            <SentimentFigures [m
+[31m-              positive={latest?.sentimiento_positivo || 0} [m
+[31m-              neg
